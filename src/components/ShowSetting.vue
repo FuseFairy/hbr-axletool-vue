@@ -112,4 +112,7 @@ const closeTable = () => {
 .scrollbar-style-1::-webkit-scrollbar-thumb {
   background-color: #555;
 }
+:deep(.toggle-container:focus) {
+  box-shadow: none;
+}
 </style>
