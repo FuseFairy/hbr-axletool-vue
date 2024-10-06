@@ -123,6 +123,7 @@ function updateInitSp(key, type,value) {
   box-sizing: border-box;
   text-align: center;
   outline: none;
+  font-size: 16px;
 }
 .container {
   display: grid;
