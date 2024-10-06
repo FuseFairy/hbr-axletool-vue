@@ -19,7 +19,7 @@ export const useCharStore = defineStore(
             img: null,
             initSp:1,
             chainInitSp: 3,
-            turnInitSp: 1
+            turnInitSp: 2
           }
         ])
       )
