@@ -1,5 +1,5 @@
 <template>
-  <div class="slider-container">
+  <div v-if="!settingStore.calSP" class="slider-container">
     <div class="top-container">
       <h3>{{ title }}</h3>
       <div class="input-container">
@@ -45,6 +45,7 @@ import { computed } from 'vue'
 import { useSliderStore } from '@/stores/slider_stores'
 import { useSkillStore } from '@/stores/skill_stores'
 import { useCharStore } from '@/stores/char_stores'
+import { useSettingStore } from '@/stores/setting_stores'
 import VueSlider from 'vue-slider-component'
 import '/styles/themes/slider.css'
 
@@ -52,6 +53,7 @@ const title = 'Number Of Rows'
 const sliderStore = useSliderStore()
 const skillStore = useSkillStore()
 const charStore = useCharStore()
+const settingStore = useSettingStore()
 
 const increaseValue = () => {
   if (sliderStore.rows < 50) {

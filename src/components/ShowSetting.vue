@@ -1,8 +1,10 @@
 <script setup>
 import Toggle from '@vueform/toggle'
 import { useSettingStore } from '@/stores/setting_stores';
+import { useSliderStore } from '@/stores/slider_stores';
 
 const settingStore = useSettingStore()
+const sliderStore = useSliderStore()
 
 const emit = defineEmits(['close'])
 const closeTable = () => {
@@ -22,6 +24,7 @@ const closeTable = () => {
         <div class="option">
           <label>SP自動計算</label>
           <Toggle
+            :disabled="sliderStore.rows > 0"
             id="calculate-sp-toggle"
             v-model="settingStore.calSP"
             on-label="On"
@@ -114,5 +117,11 @@ const closeTable = () => {
 }
 :deep(.toggle-container:focus) {
   box-shadow: none;
+}
+:deep(.toggle-on-disabled) {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
+  opacity: 0.8;
 }
 </style>
