@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useCharStore } from '@/stores/char_stores'
+import { useSettingStore } from '@/stores/setting_stores'
+import { useSliderStore } from '@/stores/slider_stores'
 import SelectChar from '@/components/SelectChar.vue'
 import { getAssetsFile } from '@/api/util'
 
 const charStore = useCharStore()
+const settingStore = useSettingStore()
+const sliderStore = useSliderStore()
 
 const buttons = ref([
   { key: 1, label: 'Button 1' },
@@ -23,27 +27,52 @@ const handleBoxClick = (key) => {
 const closeContainer = () => {
   activeComponent.value = null
 }
+
+function updateFightInitSp(key, value) {
+  if (value === '' || value === null || value === undefined) {
+    charStore.setSelection(key, 'fightInitSp', 0);
+  } else {
+    const numericValue = parseInt(value, 10);
+    if (!isNaN(numericValue)) {
+      charStore.setSelection(key, 'fightInitSp', numericValue);
+    } else {
+      charStore.setSelection(key, 'fightInitSp', 0);
+    }
+  }
+}
 </script>
 
 <template>
-  <div class="button-container">
-    <button
-      v-for="button in buttons"
-      :key="button.key"
-      @click="handleBoxClick(button.key)"
-      :class="{
-        'circle-button selected-button': charStore.selections[button.key].img !== null,
-        'circle-button add-button': charStore.selections[button.key].img === null
-      }"
-    >
-      <img
-        v-if="charStore.selections[button.key].img !== null"
-        class="char-img"
-        :src="getAssetsFile(charStore.selections[button.key].img)"
-        :alt="charStore.selections[button.key].style"
-      />
-      <img v-else class="icon-img" src="@/assets/custom_icon/add.svg" alt="Add" />
-    </button>
+  <div class="container">
+    <div v-for="button in buttons" class="button-container">
+      <button
+        :key="button.key"
+        @click="handleBoxClick(button.key)"
+        :class="{
+          'circle-button selected-button': charStore.selections[button.key].img !== null,
+          'circle-button add-button': charStore.selections[button.key].img === null
+        }"
+      >
+        <img
+          v-if="charStore.selections[button.key].img !== null"
+          class="char-img"
+          :src="getAssetsFile(charStore.selections[button.key].img)"
+          :alt="charStore.selections[button.key].style"
+        />
+        <img v-else class="icon-img" src="@/assets/custom_icon/add.svg" alt="Add" />
+      </button>
+
+      <span v-if="settingStore.calSP" class="input-group">
+        <label class="input-label">戰鬥開始SP</label>
+        <input
+          :id="'fightInit_' + button.key"
+          :disabled="sliderStore.rows > 0"
+          v-model="charStore.selections[button.key].fightInitSp"
+          class="input-style"
+          type="number"
+          @change="updateFightInitSp(button.key, $event.target.value)" />
+      </span>
+    </div>
   </div>
   <SelectChar
     v-if="activeComponent !== null"
@@ -53,13 +82,37 @@ const closeContainer = () => {
 </template>
 
 <style scoped>
-.button-container {
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.input-label {
+  font-size: 100%;
+  color: #a09b9b;
+}
+.input-style {
+  padding: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+}
+.container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 20px;
   justify-items: center;
   align-items: center;
-  height: 100%;
+  box-sizing: border-box;
+  gap: 1rem;
+}
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
 }
 .circle-button {
   border-radius: 50%;
@@ -105,7 +158,7 @@ const closeContainer = () => {
   height: 50px;
 }
 @media (max-width: 800px) {
-  .button-container {
+  .container {
     grid-template-columns: repeat(3, 1fr);
   }
   .circle-button {
