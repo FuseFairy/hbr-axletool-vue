@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import './assets/main.css'
 import AddRows from './components/AddRows.vue'
-import SelectBoxes from '@/components/SelectBoxes.vue'
-import SelectRows from '@/components/SelectRows.vue'
+import SelectBoxes from './components/SelectBoxes.vue'
+import SelectRows from './components/SelectRows.vue'
 import ShowTable from './components/ShowTable.vue'
 import uploadButton from './components/uploadButton.vue'
 import SelectSkill from './components/SelectSkill.vue'
@@ -202,10 +202,5 @@ main {
 }
 .scrollbar-style-1::-webkit-scrollbar-thumb {
   background-color: #555;
-}
-@media (max-width: 450px) {
-  .box_container {
-    height: 30vh;
-  }
 }
 </style>
