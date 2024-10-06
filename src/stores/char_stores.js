@@ -17,7 +17,8 @@ export const useCharStore = defineStore(
             earring: null,
             skill: [],
             img: null,
-            fightInitSp: 1
+            fightInitSp: 3,
+            turnInitSp: 2
           }
         ])
       )

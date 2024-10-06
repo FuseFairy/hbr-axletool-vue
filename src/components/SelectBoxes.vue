@@ -28,15 +28,15 @@ const closeContainer = () => {
   activeComponent.value = null
 }
 
-function updateFightInitSp(key, value) {
+function updateInitSp(key, type,value) {
   if (value === '' || value === null || value === undefined) {
-    charStore.setSelection(key, 'fightInitSp', 0);
+    charStore.setSelection(key, type, 0);
   } else {
     const numericValue = parseInt(value, 10);
     if (!isNaN(numericValue)) {
-      charStore.setSelection(key, 'fightInitSp', numericValue);
+      charStore.setSelection(key, type, numericValue);
     } else {
-      charStore.setSelection(key, 'fightInitSp', 0);
+      charStore.setSelection(key, type, 0);
     }
   }
 }
@@ -70,7 +70,18 @@ function updateFightInitSp(key, value) {
           v-model="charStore.selections[button.key].fightInitSp"
           class="input-style"
           type="number"
-          @change="updateFightInitSp(button.key, $event.target.value)" />
+          @change="updateFightInitSp(button.key, 'fightInitSp', $event.target.value)" />
+      </span>
+
+      <span v-if="settingStore.calSP" class="input-group">
+        <label class="input-label">回合開始SP</label>
+        <input
+          :id="'turnInit_' + button.key"
+          :disabled="sliderStore.rows > 0"
+          v-model="charStore.selections[button.key].turnInitSp"
+          class="input-style"
+          type="number"
+          @change="updateInitSp(button.key, 'turnInitSp', $event.target.value)" />
       </span>
     </div>
   </div>
@@ -86,6 +97,8 @@ function updateFightInitSp(key, value) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  box-sizing: border-box;
+  padding-top: 5px;
 }
 .input-label {
   font-size: 100%;
