@@ -63,11 +63,22 @@ function updateInitSp(key, type,value) {
       </button>
 
       <span v-if="settingStore.calSP" class="input-group">
-        <label class="input-label">戰鬥開始SP</label>
+        <label class="input-label">初始SP</label>
         <input
-          :id="'fightInit_' + button.key"
+          :id="'init_' + button.key"
           :disabled="sliderStore.rows > 0"
-          v-model="charStore.selections[button.key].fightInitSp"
+          v-model="charStore.selections[button.key].initSp"
+          class="input-style"
+          type="number"
+          @change="updateInitSp(button.key, 'initSp', $event.target.value)" />
+      </span>
+
+      <span v-if="settingStore.calSP" class="input-group">
+        <label class="input-label">墜練SP</label>
+        <input
+          :id="'chainInit_' + button.key"
+          :disabled="sliderStore.rows > 0"
+          v-model="charStore.selections[button.key].chainInitSp"
           class="input-style"
           type="number"
           @change="updateFightInitSp(button.key, 'fightInitSp', $event.target.value)" />
